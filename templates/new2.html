@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linear Regression Predictor</title>
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='images/car.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 120px;
+            right: 10px;
+
+        }
+        .logo {
+            width: 400px;
+            height: auto;
+            margin-bottom: 20px;
+            margin-right: 20px;
+        }
+        .margin-right{
+            margin-right: 20px;
+        }
+        .header h2 {
+            color: white;
+            margin: 0;
+            font-size: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin-top: 100px; /* Adjust as needed */
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin: 10px 0;
+        }
+        label {
+            flex: 1;
+            text-align: left;
+            font-weight: bold;
+        }
+        input, select {
+            flex: 2;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="header">
+        <img src="static/images/logo1.png" alt="Car Dekho Logo" class="logo">
+    </div>
+
+    <div class="container">
+        <form action="/predict" method="POST">
+            <div class="input-group">
+                <label for="brand">Brand Name</label>
+                <input type="text" name="brand" step="any" required>
+            </div>
+            <div class="input-group">
+                <label for="model">Model</label>
+                <input type="text" name="model" id="model" list="model-list" required autocomplete="off">
+                <datalist id="model-list">
+                    <option value="3">
+                    <option value="5">
+                    <option value="6">
+                    <option value="7">
+                    <option value="A4">
+                    <option value="A6">
+                    <option value="A8">
+                    <option value="Amaze">
+                    <option value="Alto">
+                    <option value="Altroz">
+                    <option value="Alturas">
+                    <option value="Aspire">
+                    <option value="Aura">
+                    <option value="Baleno">
+                    <option value="Bolero">
+                    <option value="C">
+                    <option value="C-Class">
+                    <option value="Cayenne">
+                    <option value="Celerio">
+                    <option value="City">
+                    <option value="Civic">
+                    <option value="CLS">
+                    <option value="Compass">
+                    <option value="Continental">
+                    <option value="Cooper">
+                    <option value="Creta">
+                    <option value="CR">
+                    <option value="CR-V">
+                    <option value="D-Max">
+                    <option value="Duster">
+                    <option value="Dzire LXI">
+                    <option value="Dzire VXI">
+                    <option value="Dzire ZXI">
+                    <option value="E-Class">
+                    <option value="Eeco">
+                    <option value="Ecosport">
+                    <option value="Elantra">
+                    <option value="Endeavour">
+                    <option value="Ertiga">
+                    <option value="ES">
+                    <option value="F-PACE">
+                    <option value="Figo">
+                    <option value="Fortuner">
+                    <option value="Freestyle">
+                    <option value="Ghost">
+                    <option value="Ghibli">
+                    <option value="Glanza">
+                    <option value="GO">
+                    <option value="Grand">
+                    <option value="GTC4Lusso">
+                    <option value="Gurkha">
+                    <option value="Harrier">
+                    <option value="Hector">
+                    <option value="Hexa">
+                    <option value="Ignis">
+                    <option value="i10">
+                    <option value="i20">
+                    <option value="Innova">
+                    <option value="Jazz">
+                    <option value="Kicks">
+                    <option value="KWID">
+                    <option value="KUV">
+                    <option value="KUV100">
+                    <option value="Macan">
+                    <option value="Marazzo">
+                    <option value="MUX">
+                    <option value="Nexon">
+                    <option value="NX">
+                    <option value="Octavia">
+                    <option value="Panamera">
+                    <option value="Polo">
+                    <option value="Quattroporte">
+                    <option value="Rapid">
+                    <option value="RediGO">
+                    <option value="redi-GO">
+                    <option value="Rover">
+                    <option value="RX">
+                    <option value="S-Class">
+                    <option value="S-Presso">
+                    <option value="Safari">
+                    <option value="Santro">
+                    <option value="Scorpio">
+                    <option value="Seltos">
+                    <option value="S90">
+                    <option value="Swift">
+                    <option value="Swift Dzire">
+                    <option value="Superb">
+                    <option value="Thar">
+                    <option value="Tigor">
+                    <option value="Tiago">
+                    <option value="Tucson">
+                    <option value="Vento">
+                    <option value="Venue">
+                    <option value="Verna">
+                    <option value="Vitara">
+                    <option value="Wagon R">
+                    <option value="WR-V">
+                    <option value="Wrangler">
+                    <option value="X-Trail">
+                    <option value="X1">
+                    <option value="X3">
+                    <option value="X4">
+                    <option value="X5">
+                    <option value="XUV300">
+                    <option value="XUV500">
+                    <option value="XC">
+                    <option value="XC60">
+                    <option value="XC90">
+                    <option value="XE">
+                    <option value="XF">
+                    <option value="XL6">
+                    <option value="Z4">
+                </datalist>
+            </div>
+            
+            <div class="input-group">
+                <label for="vehicle_age">Vehicle Age</label>
+                <input type="number" name="vehicle_age" step="any" required>
+            </div>
+            <div class="input-group">
+                <label for="km_driven">Kilometers Driven</label>
+                <input type="number" name="km_driven" step="any" required>
+            </div>
+            <div class="input-group">
+                <label for="seller_type">Seller Type</label>
+                <select name="seller_type" required>
+                    <option value="individual">Individual</option>
+                    <option value="dealer">Dealer</option>
+                    <option value="trustmark_dealer">Trustmark Dealer</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="fuel_type">Fuel Type</label>
+                <select name="fuel_type" required>
+                    <option value="petrol">Petrol</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="cng">CNG</option>
+                    <option value="electric">Electric</option>
+                    <option value="lpg">LPG</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="transmission_type">Transmission Type</label>
+                <select name="transmission_type" required>
+                    <option value="manual">Manual</option>
+                    <option value="automatic">Automatic</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="mileage">Mileage (kmpl)</label>
+                <input type="number" name="mileage" step="any" required>
+            </div>
+            <div class="input-group">
+                <label for="engine">Engine Capacity (cc)</label>
+                <input type="number" name="engine" step="any" required>
+            </div>
+            <div class="input-group">
+                <label for="max_power">Max Power (bhp)</label>
+                <input type="number" name="max_power" step="any" required>
+            </div>
+            <div class="input-group">
+                <label for="seats">Seats</label>
+                <input type="number" name="seats" required>
+            </div>
+            <button type="submit">Predict</button>
+        </form>
+        
+        {% if results is not none %}
+        <p>Predicted Price : {{ results }}</p>
+        <p style="background-color:rgb(255, 71, 71);">pricee can be varrie based on constumer and seller choice.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
